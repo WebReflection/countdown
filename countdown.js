@@ -38,6 +38,36 @@ const minutesToMS = minutes => {
   return minutes * 60 * 1000;
 };
 
+const readableTime = date => [
+  ten(date.getUTCHours()),
+  ten(date.getUTCMinutes())
+].join(':');
+
+const saveCounter = countdown => new Promise(resolve => {
+  writeFile(COUNTDOWN, stringify(countdown), err => {
+    if (err)
+      error(err);
+    resolve(countdown);
+  });
+});
+
+const showTime = value => new Promise((resolve, reject) => {
+  exec(`${INKY_PHAT} '${value}'`, err => {
+    if (err)
+      reject(err);
+    else
+      resolve();
+  });
+});
+
+const ten = i => `0${i}`.slice(-2);
+
+const timeToMS = time => {
+  const [hours, minutes] = ''.split.call(time, ':');
+  return hoursToMS(b10(hours)) + minutesToMS(b10(minutes || 0));
+};
+
+// time tracker logic
 const onReady = countdown => {
   // show the current time with *_* "face" to indicate
   // the reboot was successful
@@ -78,36 +108,6 @@ const onReady = countdown => {
   );
 };
 
-const readableTime = date => [
-  ten(date.getUTCHours()),
-  ten(date.getUTCMinutes())
-].join(':');
-
-const saveCounter = countdown => new Promise(resolve => {
-  writeFile(COUNTDOWN, stringify(countdown), err => {
-    if (err)
-      error(err);
-    resolve(countdown);
-  });
-});
-
-const showTime = value => new Promise((resolve, reject) => {
-  exec(`${INKY_PHAT} '${value}'`, err => {
-    if (err)
-      reject(err);
-    else
-      resolve();
-  });
-});
-
-const ten = i => `0${i}`.slice(-2);
-
-const timeToMS = time => {
-  const [hours, minutes] = ''.split.call(time, ':');
-  return hoursToMS(b10(hours)) + minutesToMS(b10(minutes || 0));
-};
-
-// counter logic
 const startCounter = time => {
   const date = new Date(timeToMS(time));
   // grab countdown json file, if any
