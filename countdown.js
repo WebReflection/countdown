@@ -83,12 +83,12 @@ const onReady = countdown => {
         unlink(COUNTDOWN, function blink(visible) {
           // blink every 2 seconds with o_O or O_o "face"
           // to indicate time is over and "face" is not happy anymore
-          showTime(visible ? 'o_O 00:00' : 'O_o 00:00').then(
+          showTime(visible ? 'x_x' : 'STOP').then(
             () => {
               // don't assign this timeout as the only thing to do
               // at this point is to disconnect the timer and start
               // the next working day from zero
-              setTimeout(blink, 2000, !visible);
+              setTimeout(blink, 1000, !visible);
             },
             error
           );
