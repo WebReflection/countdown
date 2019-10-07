@@ -31,13 +31,9 @@ const {error} = console;
 // utils
 const b10 = num => abs(parseInt(num, 10));
 
-const hoursToMS = hours => {
-  return hours * 60 * 60 * 1000;
-};
+const hoursToMS = hours => hours * 60 * 60 * 1000;
 
-const minutesToMS = minutes => {
-  return minutes * 60 * 1000;
-};
+const minutesToMS = minutes => minutes * 60 * 1000;
 
 const readableTime = date => [
   ten(date.getUTCHours()),
