@@ -2,6 +2,8 @@
 
 A [pimoroni b/w Inky pHAT](https://pimoroni.com/inkyphat) working time tracker, based on [Raspbian Buster Lite](https://www.raspberrypi.org/downloads/raspbian/), running on a [Raspberry Pi Zero](https://www.raspberrypi.org/products/raspberry-pi-zero/)/[Zero W](https://www.raspberrypi.org/products/raspberry-pi-zero-w/), powered by NodeJS and Python 3.
 
+![time tracker example](./time-tracker-pi-zero.jpg)
+
 ## How To Install
 
 Burn the _Raspbian Buster Lite_ ISO to any SD card.
