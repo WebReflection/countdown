@@ -28,11 +28,14 @@ Install latest NodeJS for the Pi Zero/W via:
 wget -O - https://raw.githubusercontent.com/sdesalas/node-pi-zero/master/install-node-v.last.sh | bash
 ```
 
-Download both js and python scripts:
+Download both js and python scripts and make them executable:
 
 ```sh
 curl -LO https://webreflection.github.io/countdown/countdown.js
 curl -LO https://webreflection.github.io/countdown/countdown.py
+
+chmod a+x countdown.js
+chmod a+x countdown.py
 ```
 
 Add the following content at the end of your `~/.bashrc` file:
