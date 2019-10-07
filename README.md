@@ -12,7 +12,7 @@ A [pimoroni b/w Inky pHAT](https://pimoroni.com/inkyphat) working time tracker, 
   * if unplugged after the countdown is finished, it resets itself (will start from scratch next boot/working day)
 
 
-#### When Is It Safe To Unplug ?
+### When Is It Safe To Unplug ?
 
 If the countdown is finished, i.e. the screen is blinking, it's always safe to unplug the Raspberry Pi Zero/W.
 
@@ -21,7 +21,7 @@ However, to pause it, it's best to wait after next minute update, as any filesys
 Theoretically, you must be quite unlucky to unplug it in a breaking way, but don't worry, the code is super defensive about it so that in the worst case scenario you'll just have a timer starting from scratch.
 
 
-#### How to reset the timer ?
+### How to reset the timer ?
 
 Just let it reach its end, or SSH into your pi and remove the `~/countdown.json` file.
 
