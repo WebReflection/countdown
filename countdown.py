@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+# for original documentation @see
+# https://learn.pimoroni.com/tutorial/sandyj/getting-started-with-inky-phat
+
 # ISC License
 #
 # Copyright (c) 2019, Andrea Giammarchi, @WebReflection
