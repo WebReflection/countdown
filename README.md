@@ -4,6 +4,30 @@ A [pimoroni b/w Inky pHAT](https://pimoroni.com/inkyphat) working time tracker, 
 
 ![time tracker example](./time-tracker-pi-zero.jpg)
 
+
+## How Does It Work
+
+  * once plugged in for the first time, it will start a countdown
+  * if unplugged before the countdown is finished, it pauses (will start from that same time next boot)
+  * if unplugged after the countdown is finished, it resets itself (will start from scratch next boot/working day)
+
+
+#### When Is It Safe To Unplug ?
+
+If the countdown is finished, i.e. the screen is blinking, it's always safe to unplug the Raspberry Pi Zero/W.
+
+However, to pause it, it's best to wait after next minute update, as any filesystem operation would be done by that time.
+
+Theoretically, you must be quite unlucky to unplug it in a breaking way, but don't worry, the code is super defensive about it so that in the worst case scenario you'll just have a timer starting from scratch.
+
+
+#### How to reset the timer ?
+
+Just let it reach its end, or SSH into your pi and remove the `~/countdown.json` file.
+
+Reboot, and you'll be good to go again.
+
+
 ## How To Install
 
 Burn the _Raspbian Buster Lite_ ISO to any SD card.
@@ -45,7 +69,7 @@ Add the following content at the end of your `~/.bashrc` file:
 if [[ -z $DISPLAY && $XDG_VTNR -eq 1 ]]; then
   # feel free to pass a number of hours to countdown
   # or any string such as '01:30' to count 1 hour and a half
-  ~/countdown.js
+  ~/countdown.js 8 # as in 8 hours time tracker countdown
 fi
 ```
 
