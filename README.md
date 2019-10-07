@@ -55,6 +55,8 @@ wget -O - https://raw.githubusercontent.com/sdesalas/node-pi-zero/master/install
 Download both js and python scripts and make them executable:
 
 ```sh
+cd ~/
+
 curl -LO https://webreflection.github.io/countdown/countdown.js
 curl -LO https://webreflection.github.io/countdown/countdown.py
 
