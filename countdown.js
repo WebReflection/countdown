@@ -94,8 +94,6 @@ const startCounter = time => {
         const {date} = countdown;
         // drop a minute from the date
         date.setUTCMinutes(date.getUTCMinutes() - 1);
-        // show current time with ^_^ "face"
-        showTime('^_^ ' + readableTime(date));
         // if time is over, as in 0 hours and 0 minutes
         if ((date.getUTCHours() + date.getUTCMinutes()) == 0) {
           // clear the minutes interval
@@ -120,6 +118,8 @@ const startCounter = time => {
         }
         else {
           writeFile(COUNTDOWN, stringify(countdown), Object);
+          // show current time with ^_^ "face"
+          showTime('^_^ ' + readableTime(date));
         }
       },
       minutesToMS(1)
