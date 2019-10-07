@@ -38,6 +38,8 @@ Add the following content at the end of your `~/.bashrc` file:
 ```sh
 # start countdown on login
 if [[ -z $DISPLAY && $XDG_VTNR -eq 1 ]]; then
+  # feel free to pass a number of hours to countdown
+  # or any string such as '01:30' to count 1 hour and a half
   ~/countdown.js
 fi
 ```

@@ -27,6 +27,8 @@ const INKY_PHAT = join(process.env.HOME, 'countdown.py');
 const {stringify, parse} = JSON;
 
 // utils
+const b10 = num => parseInt(num, 10);
+
 const hoursToMS = hours => {
   return hours * 60 * 60 * 1000;
 };
@@ -45,13 +47,15 @@ const saveCounter = (countdown) => {
   return countdown;
 };
 
-const showTime = value => exec(`${INKY_PHAT} '${value}'`, Object);
+const showTime = value => {
+  exec(`${INKY_PHAT} '${value}'`, Object);
+};
 
 const ten = i => `0${i}`.slice(-2);
 
 const timeToMS = time => {
   const [hours, minutes] = ''.split.call(time, ':');
-  return hoursToMS(+hours) + minutesToMS(+(minutes || 0));
+  return hoursToMS(b10(hours)) + minutesToMS(b10(minutes || 0));
 };
 
 // counter logic
