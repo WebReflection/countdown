@@ -25,10 +25,11 @@ const {readFile, writeFile, unlink} = require('fs');
 const COUNTDOWN = join(process.env.HOME, 'countdown.json');
 const INKY_PHAT = join(process.env.HOME, 'countdown.py');
 const {stringify, parse} = JSON;
+const {abs} = Math;
 const {error} = console;
 
 // utils
-const b10 = num => parseInt(num, 10);
+const b10 = num => abs(parseInt(num, 10));
 
 const hoursToMS = hours => {
   return hours * 60 * 60 * 1000;
