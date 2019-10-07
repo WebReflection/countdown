@@ -81,9 +81,9 @@ const onReady = countdown => {
         clearInterval(i);
         // remove the json file, will start from scratch next boot
         unlink(COUNTDOWN, function blink(visible) {
-          // blink every 2 seconds with o_O or O_o "face"
+          // blink every 2 seconds with x_x "face" or "ENOUGH"
           // to indicate time is over and "face" is not happy anymore
-          showTime(visible ? 'x_x' : 'STOP').then(
+          showTime(visible ? 'x_x' : 'ENOUGH').then(
             () => {
               // don't assign this timeout as the only thing to do
               // at this point is to disconnect the timer and start
