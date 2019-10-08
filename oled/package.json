@@ -1,6 +1,9 @@
 {
   "name": "countdown",
   "private": true,
+  "scripts": {
+    "start": "node countdown.js 8"
+  },
   "dependencies": {
     "oled-js": "latest",
     "oled-font-5x7": "latest"
