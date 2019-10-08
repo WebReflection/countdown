@@ -25,7 +25,7 @@ const Oled = require('oled-js');
 const {join} = require('path');
 const {readFile, writeFile, unlink} = require('fs');
 
-const COUNTDOWN = join(process.env.HOME, 'countdown.json');
+const COUNTDOWN = join(process.env.HOME, 'app', 'countdown.json');
 
 const {stringify, parse} = JSON;
 const {abs} = Math;
