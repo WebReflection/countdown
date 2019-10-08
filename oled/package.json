@@ -1,0 +1,12 @@
+{
+  "name": "countdown",
+  "private": true,
+  "dependencies": {
+    "oled-js": "latest",
+    "oled-font-5x7": "latest"
+  },
+  "devDependencies": {
+    "raspi-io": "latest",
+    "johnny-five": "latest"
+  }
+}

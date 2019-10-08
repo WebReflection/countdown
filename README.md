@@ -76,3 +76,35 @@ fi
 ```
 
 Reboot.
+
+
+### As BENJA App with Oled Screen
+
+These are instructions for having countdown on BENJA and the i2c Pi Oled screen.
+
+Prepare a Raspberry Pi Zero/W SD card:
+
+```sh
+bash <(curl -s https://archibold.io/benja/prepare)
+```
+
+Extract the card, and put it back.
+
+Open a terminal in the the _APP_ disk folder and type the following:
+
+```sh
+curl -LO https://webreflection.github.io/countdown/oled/countdown.js
+curl -LO https://webreflection.github.io/countdown/oled/package.json
+sync
+```
+
+Once done, exit from the terminal, unmount the SD card, boot into the Pi Zero/W, complete installation, and wait for the first counter after last reboot.
+
+If you want to set it up in a Pi Zero W but use after a Pi Zero instead, remember to disable the network.
+
+```sh
+netctl list
+# read the wlan0 name
+
+sudo netctl disable wlan0-your-SID
+```
