@@ -80,6 +80,8 @@ Reboot.
 
 ### As [BENJA App](https://archibold.io/benja/) with Oled Screen
 
+![time tracker oled example](./time-tracker-oled.jpg)
+
 These are instructions for having countdown on [BENJA](https://github.com/WebReflection/archibold.io/tree/gh-pages/benja) and the [i2c Pi Oled screen](https://learn.adafruit.com/adafruit-pioled-128x32-mini-oled-for-raspberry-pi/usage).
 
 Prepare a Raspberry Pi Zero/W SD card:
