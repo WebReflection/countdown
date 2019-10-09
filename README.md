@@ -71,9 +71,16 @@ Add the following content at the end of your `~/.bashrc` file:
 if [[ -z $DISPLAY && $XDG_VTNR -eq 1 ]]; then
   # feel free to pass a number of hours to countdown
   # or any string such as '01:30' to count 1 hour and a half
-  ~/countdown.js 8 # as in 8 hours time tracker countdown
+  # if there is a /boot/MESSAGE.txt file, pass it as initial message
+  if [ -f /boot/MESSAGE.txt ]; then
+    ~/countdown.js 8 "$(cat /boot/MESSAGE.txt)"
+  else
+    ~/countdown.js 8 # as in 8 hours time tracker countdown
+  fi
 fi
 ```
+
+If you create a `/boot/MESSAGE.txt` file with some content, at any time, it will show for few seconds that message every time it starts.
 
 Reboot.
 
@@ -101,6 +108,8 @@ sync
 ```
 
 Once done, exit from the terminal, unmount the SD card, boot into the Pi Zero/W, complete installation, and wait for the first counter after last reboot.
+
+If you create a `MESSAGE.txt` file in the _APP_ disk/folder, it will show that message every time it starts.
 
 If you want to set it up in a Pi Zero W but use after a Pi Zero instead, remember to disable the network.
 

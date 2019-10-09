@@ -25,7 +25,9 @@ const Oled = require('oled-js');
 const {join} = require('path');
 const {readFile, writeFile, unlink} = require('fs');
 
-const COUNTDOWN = join(process.env.HOME, 'app', 'countdown.json');
+const HOME = '/home/alarm';
+const COUNTDOWN = join(HOME, 'app', 'countdown.json');
+const WELCOME = join(HOME, 'app', 'MESSAGE.txt');
 
 const {stringify, parse} = JSON;
 const {abs} = Math;
@@ -129,7 +131,7 @@ const startCounter = time => {
     else {
       // file found, try to parse it (avoid corrupted files)
       try {
-        const result = parse(data);
+        const result = parse(data.toString());
         // if the total time is the same as previous run
         if (result.time == time)
           // start from last saved date
@@ -147,5 +149,14 @@ const startCounter = time => {
   });
 };
 
-// accepts an argument or it starts from 8 hours
-startCounter(process.argv[2] || 8);
+readFile(WELCOME, (err, data) => {
+  // accepts an argument or it starts from 8 hours
+  const time = process.argv[2] || 8;
+  if (err)
+    startCounter(time);
+  else {
+    showTime(data.toString()).then(() => {
+      setTimeout(startCounter, 3500, time);
+    });
+  }
+});

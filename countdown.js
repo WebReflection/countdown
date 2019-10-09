@@ -18,12 +18,13 @@
 
 // modules
 const {join} = require('path');
-const {exec} = require('child_process');
+const {spawn} = require('child_process');
 const {readFile, writeFile, unlink} = require('fs');
 
 // constants
-const COUNTDOWN = join(process.env.HOME, 'countdown.json');
-const INKY_PHAT = join(process.env.HOME, 'countdown.py');
+const {HOME} = process.env;
+const COUNTDOWN = join(HOME, 'countdown.json');
+const INKY_PHAT = join(HOME, 'countdown.py');
 const {stringify, parse} = JSON;
 const {abs} = Math;
 const {error} = console;
@@ -49,9 +50,12 @@ const saveCounter = countdown => new Promise(resolve => {
 });
 
 const showTime = value => new Promise((resolve, reject) => {
-  exec(`${INKY_PHAT} '${value}'`, err => {
-    if (err)
-      reject(err);
+  const message = [];
+  const child = spawn(INKY_PHAT, [value]);
+  child.stderr.on('data', message.push.bind(message));
+  child.on('close', code => {
+    if (code)
+      reject(new Error(message.join('')));
     else
       resolve();
   });
@@ -105,33 +109,41 @@ const onReady = countdown => {
   );
 };
 
-const startCounter = time => {
+const startCounter = (time, welcome) => {
   const date = new Date(timeToMS(time));
-  // grab countdown json file, if any
-  readFile(COUNTDOWN, (err, data) => {
-    // no file found, start from date
-    if (err)
-      saveCounter({time, date}).then(onReady);
-    else {
-      // file found, try to parse it (avoid corrupted files)
-      try {
-        const result = parse(data);
-        // if the total time is the same as previous run
-        if (result.time == time)
-          // start from last saved date
-          Promise.resolve({time, date: new Date(result.date)}).then(onReady);
-        else
-          // otherwise start from scratch
-          saveCounter({time, date}).then(onReady);
-      }
-      // if json was corrupted (i.e. unplugged while saving)
-      catch (o_O) {
-        // start from scratch
+  const count = () => {
+    // grab countdown json file, if any
+    readFile(COUNTDOWN, (err, data) => {
+      // no file found, start from date
+      if (err)
         saveCounter({time, date}).then(onReady);
+      else {
+        // file found, try to parse it (avoid corrupted files)
+        try {
+          const result = parse(data);
+          // if the total time is the same as previous run
+          if (result.time == time)
+            // start from last saved date
+            Promise.resolve({time, date: new Date(result.date)}).then(onReady);
+          else
+            // otherwise start from scratch
+            saveCounter({time, date}).then(onReady);
+        }
+        // if json was corrupted (i.e. unplugged while saving)
+        catch (o_O) {
+          // start from scratch
+          saveCounter({time, date}).then(onReady);
+        }
       }
-    }
-  });
+    });
+  };
+  if (welcome)
+    showTime(welcome).then(() => {
+      setTimeout(count, 1000);
+    });
+  else
+    count();
 };
 
 // accepts an argument or it starts from 8 hours
-startCounter(process.argv[2] || 8);
+startCounter(process.argv[2] || 8, ''.trim.call(process.argv[3] || ''));
