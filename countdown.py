@@ -41,8 +41,8 @@ font = ImageFont.truetype(FredokaOne, 42)
 # to keep the board charging from the top
 # so that it's easier to put it on a desk
 w, h = font.getsize(message)
-x = (inky_display.WIDTH / 2) - (w / 2)
-y = (inky_display.HEIGHT / 2) - (h / 2)
+x = (inky_display.WIDTH - w) / 2
+y = (inky_display.HEIGHT - h) / 2
 draw.text((x, y), message, inky_display.BLACK, font)
 inky_display.set_image(img.rotate(180))
 inky_display.show()

@@ -30,7 +30,7 @@ const COUNTDOWN = join(HOME, 'app', 'countdown.json');
 const WELCOME = join(HOME, 'app', 'MESSAGE.txt');
 
 const {stringify, parse} = JSON;
-const {abs} = Math;
+const {abs, floor, pow} = Math;
 const {error} = console;
 
 const board = new five.Board({io: new RaspiIO});
@@ -66,9 +66,15 @@ const saveCounter = countdown => new Promise(resolve => {
 });
 
 const showTime = value => ready.then(oled => {
+  const scale = 2;
+  const w =  (5 * scale) * value.length;
+  const h = 7;
   oled.clearDisplay();
-  oled.setCursor(1, 1);
-  oled.writeString(font, 2, value, 1, true, 2);
+  oled.setCursor(
+    floor((options.width - w) / pow(2, scale)),
+    floor((options.height - h) / pow(2, scale))
+  );
+  oled.writeString(font, scale, value, 1, true, 2);
   oled.update();
   return new Promise(resolve => setTimeout(resolve, 1500));
 });
