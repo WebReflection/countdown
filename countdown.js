@@ -18,7 +18,7 @@
 
 // modules
 const {join} = require('path');
-const {spawn} = require('child_process');
+const {exec, spawn} = require('child_process');
 const {readFile, writeFile, unlink} = require('fs');
 
 // constants
@@ -45,7 +45,11 @@ const saveCounter = countdown => new Promise(resolve => {
   writeFile(COUNTDOWN, stringify(countdown), err => {
     if (err)
       error(err);
-    resolve(countdown);
+    exec('sync', err => {
+      if (err)
+        error(err);
+      resolve(countdown);
+    });
   });
 });
 

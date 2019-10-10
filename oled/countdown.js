@@ -24,6 +24,7 @@ const Oled = require('oled-js');
 
 const {join} = require('path');
 const {readFile, writeFile, unlink} = require('fs');
+const {exec} = require('child_process');
 
 const HOME = '/home/alarm';
 const COUNTDOWN = join(HOME, 'app', 'countdown.json');
@@ -61,7 +62,11 @@ const saveCounter = countdown => new Promise(resolve => {
   writeFile(COUNTDOWN, stringify(countdown), err => {
     if (err)
       error(err);
-    resolve(countdown);
+    exec('sync', err => {
+      if (err)
+        error(err);
+      resolve(countdown);
+    });
   });
 });
 
