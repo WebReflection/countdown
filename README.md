@@ -119,3 +119,27 @@ netctl list
 
 sudo netctl disable wlan0-your-SID
 ```
+
+#### Using a PNG to reverse/center text
+
+![time tracker oled example](./time-tracker-oled-image.jpg)
+
+If you'd like to see text upside down and centered, type the following in your Raspberry Pi terminal, once BENJA is installed and booted:
+
+```sh
+sudo pacman -S --needed graphicsmagick ghostscript xorg-fonts-type1
+curl -LO https://archibold.io/benja/fonts/n019003l.pfb
+sudo mv n019003l.pfb /usr/share/fonts/Type1/
+
+cd ~/
+npm i --save gm png-to-lcd
+
+cd ~/app
+curl -LO https://webreflection.github.io/countdown/oled/countdown-image.js
+curl -LO https://webreflection.github.io/countdown/oled/package.json
+mv countdown-image.js countdown.js
+sync
+```
+
+Reboot the Raspberry Pi Zero/W and put it upside down.
+

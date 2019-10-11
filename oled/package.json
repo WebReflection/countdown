@@ -5,10 +5,12 @@
     "start": "node countdown.js 8"
   },
   "dependencies": {
-    "oled-js": "latest",
-    "oled-font-5x7": "latest"
+    "oled-font-5x7": "latest",
+    "oled-js": "latest"
   },
   "devDependencies": {
+    "gm": "latest",
+    "png-to-lcd": "latest",
     "raspi-io": "latest",
     "johnny-five": "latest"
   }
