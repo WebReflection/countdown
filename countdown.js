@@ -43,13 +43,16 @@ const readableTime = date => [
 
 const saveCounter = countdown => new Promise(resolve => {
   writeFile(COUNTDOWN, stringify(countdown), err => {
-    if (err)
+    if (err) {
       error(err);
-    exec('sync', err => {
-      if (err)
-        error(err);
       resolve(countdown);
-    });
+    } else {
+      exec('sync', err => {
+        if (err)
+          error(err);
+        resolve(countdown);
+      });
+    }
   });
 });
 
