@@ -91,11 +91,17 @@ const showTime = value => ready.then(oled => new Promise(resolve => {
     .flop()
     .monochrome()
     .write(IMAGE, err => {
-      pngtolcd(IMAGE, false, (err, bitmap) => {
-        oled.buffer = bitmap;
-        oled.update();
+      if (err)
         setTimeout(resolve, 1500);
-      });
+      else {
+        pngtolcd(IMAGE, false, (err, bitmap) => {
+          if (!err) {
+            oled.buffer = bitmap;
+            oled.update();
+          }
+          setTimeout(resolve, 1500);
+        });
+      }
     });
 }));
 
