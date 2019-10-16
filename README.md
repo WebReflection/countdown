@@ -85,7 +85,7 @@ If you create a `/boot/MESSAGE.txt` file with some content, at any time, it will
 Reboot.
 
 
-### As [BENJA App](https://archibold.io/benja/) with Oled Screen
+## As [BENJA App](https://archibold.io/benja/) with Oled Screen
 
 ![time tracker oled example](./time-tracker-oled.jpg)
 
@@ -120,7 +120,7 @@ netctl list
 sudo netctl disable wlan0-your-SID
 ```
 
-#### Using a PNG to reverse/center text
+### Using a PNG to reverse/center text
 
 ![time tracker oled example](./time-tracker-oled-image.jpg)
 
@@ -143,7 +143,7 @@ sync
 
 Reboot the Raspberry Pi Zero/W and put it upside down.
 
-### As [BENJA App](https://archibold.io/benja/) with [Waveshare e-Paper](https://www.waveshare.com/wiki/2.13inch_e-Paper_HAT)
+## As [BENJA App](https://archibold.io/benja/) with [Waveshare e-Paper](https://www.waveshare.com/wiki/2.13inch_e-Paper_HAT)
 
 Be sure `dtparam=spi=on` is present in `/boot/config.txt`, then type the following:
 
@@ -153,6 +153,7 @@ sudo pacman -S --needed --noconfirm python-pip python-numpy python-pillow wiring
 sudo pip install RPi.GPIO
 sudo pip install spidev
 sudo pip install font-fredoka-one
+sudo pip install inotify
 git clone https://github.com/waveshare/e-Paper
 cd e-Paper/RaspberryPi\&JetsonNano/python
 sudo setup.py build
@@ -161,10 +162,7 @@ cd ~/app
 echo '[countdown]'>MESSAGE.txt
 curl -LO https://webreflection.github.io/countdown/waveshare/countdown.js
 curl -LO https://webreflection.github.io/countdown/waveshare/countdown.py
-curl -LO https://webreflection.github.io/countdown/waveshare/clear.py
 curl -LO https://webreflection.github.io/countdown/waveshare/package.json
-chmod a+x countdown.py
-chmod a+x clear.py
 sudo rm -rf ~/e-Paper
 sync
 ```

@@ -17,14 +17,13 @@
 // PERFORMANCE OF THIS SOFTWARE.
 
 // modules
-const {join} = require('path');
-const {exec, spawn} = require('child_process');
-const {readFile, writeFile, unlink} = require('fs');
+const {exec} = require('child_process');
+const {readFile, watch, writeFile, unlink} = require('fs');
 
 // constants
-const APP = '/home/alarm/app';
-const COUNTDOWN = join(APP, 'countdown.json');
-const PYTHON = join(APP, 'countdown.py');
+const COUNTDOWN = 'countdown.json';
+const PYTHON = 'countdown.txt';
+const SCREEN_DELAY = 3000;
 const {stringify, parse} = JSON;
 const {abs} = Math;
 const {error} = console;
@@ -56,15 +55,11 @@ const saveCounter = countdown => new Promise(resolve => {
   });
 });
 
-const showTime = value => new Promise((resolve, reject) => {
-  const message = [];
-  const child = spawn(PYTHON, [value]);
-  child.stderr.on('data', message.push.bind(message));
-  child.on('close', code => {
-    if (code)
-      reject(new Error(message.join('')));
-    else
-      resolve();
+const showTime = value => new Promise(resolve => {
+  writeFile(PYTHON, value, err => {
+    if (err)
+      error(err);
+    resolve();
   });
 });
 
@@ -79,7 +74,7 @@ const timeToMS = time => {
 const onReady = countdown => {
   // show the current time with *_* "face" to indicate
   // the reboot was successful
-  showTime('*_* ' + readableTime(countdown.date)).catch(error);
+  showTime('*_* ' + readableTime(countdown.date))
   // update the timer per each minute
   const i = setInterval(
     () => {
@@ -99,16 +94,15 @@ const onReady = countdown => {
               // don't assign this timeout as the only thing to do
               // at this point is to disconnect the timer and start
               // the next working day from zero
-              setTimeout(blink, 0, !visible);
-            },
-            error
+              setTimeout(blink, SCREEN_DELAY, !visible);
+            }
           );
         });
       }
       else {
         saveCounter(countdown).then(() => {
           // show current time with ^_^ "face"
-          showTime('^_^ ' + readableTime(date)).catch(error);
+          showTime('^_^ ' + readableTime(date))
         });
       }
     },
@@ -145,12 +139,20 @@ const startCounter = (time, welcome) => {
     });
   };
   if (welcome)
-    showTime(welcome).then(() => {
-      setTimeout(count, 1000);
-    });
+    showTime(welcome).then(() => setTimeout(count, SCREEN_DELAY * 2));
   else
     count();
 };
 
-// accepts an argument or it starts from 8 hours
-startCounter(process.argv[2] || 8, ''.trim.call(process.argv[3] || ''));
+// wait for Python signal
+const watcher = watch('.', {recursive: true}, (event, fileName) => {
+  if (fileName == PYTHON) {
+    watcher.close();
+    setTimeout(
+      startCounter,
+      SCREEN_DELAY,
+      process.argv[2] || 8,
+      ''.trim.call(process.argv[3] || '')
+    );
+  }
+});

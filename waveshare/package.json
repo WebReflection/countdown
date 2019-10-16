@@ -2,6 +2,6 @@
   "name": "countdown",
   "private": true,
   "scripts": {
-    "start": "./clear.py && node countdown.js 8 \"$(cat MESSAGE.txt)\""
+    "start": "rm -f countdown.txt && (node countdown.js 8 \"$(cat MESSAGE.txt)\" & python3 countdown.py)"
   }
 }
