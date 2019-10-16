@@ -1,6 +1,6 @@
 # working time countdown
 
-A [pimoroni b/w Inky pHAT](https://pimoroni.com/inkyphat) working time tracker, based on [Raspbian Buster Lite](https://www.raspberrypi.org/downloads/raspbian/), running on a [Raspberry Pi Zero](https://www.raspberrypi.org/products/raspberry-pi-zero/)/[Zero W](https://www.raspberrypi.org/products/raspberry-pi-zero-w/), powered by NodeJS and Python 3.
+A working time tracker running on a [Raspberry Pi Zero](https://www.raspberrypi.org/products/raspberry-pi-zero/)/[Zero W](https://www.raspberrypi.org/products/raspberry-pi-zero-w/), powered by NodeJS and/or Python 3.
 
 ![time tracker example](./time-tracker-pi-zero.jpg)
 
@@ -28,9 +28,9 @@ Just let it reach its end, or SSH into your pi and remove the `~/countdown.json`
 Reboot, and you'll be good to go again.
 
 
-## How To Install
+## How To Install with [pimoroni b/w Inky pHAT](https://pimoroni.com/inkyphat)
 
-Burn the _Raspbian Buster Lite_ ISO to any SD card.
+Burn the [Raspbian Buster Lite](https://www.raspberrypi.org/downloads/raspbian/) ISO to any SD card.
 
 Boot the Pi Zero and login with user `pi` and pass `raspberry`.
 
@@ -143,3 +143,30 @@ sync
 
 Reboot the Raspberry Pi Zero/W and put it upside down.
 
+### As [BENJA App](https://archibold.io/benja/) with [Waveshare e-Paper](https://www.waveshare.com/wiki/2.13inch_e-Paper_HAT)
+
+Be sure `dtparam=spi=on` is present in `/boot/config.txt`, then type the following:
+
+```sh
+cd ~/
+sudo pacman -S --needed --noconfirm python-pip python-numpy python-pillow wiringpi
+sudo pip install RPi.GPIO
+sudo pip install spidev
+sudo pip install font-fredoka-one
+git clone https://github.com/waveshare/e-Paper
+cd e-Paper/RaspberryPi\&JetsonNano/python
+sudo setup.py build
+sudo setup.py install
+cd ~/app
+echo '[countdown]'>MESSAGE.txt
+curl -LO https://webreflection.github.io/countdown/waveshare/countdown.js
+curl -LO https://webreflection.github.io/countdown/waveshare/countdown.py
+curl -LO https://webreflection.github.io/countdown/waveshare/clear.py
+curl -LO https://webreflection.github.io/countdown/waveshare/package.json
+chmod a+x countdown.py
+chmod a+x clear.py
+sudo rm -rf ~/e-Paper
+sync
+```
+
+Rebooting your Pi should start the countdown.

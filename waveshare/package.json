@@ -1,0 +1,7 @@
+{
+  "name": "countdown",
+  "private": true,
+  "scripts": {
+    "start": "./clear.py && node countdown.js 8 \"$(cat MESSAGE.txt)\""
+  }
+}
