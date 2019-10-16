@@ -95,11 +95,11 @@ const showTime = value => ready.then(oled => new Promise(resolve => {
         setTimeout(resolve, 1500);
       else {
         pngtolcd(IMAGE, false, (err, bitmap) => {
+          setTimeout(resolve, 1500);
           if (!err) {
             oled.buffer = bitmap;
             oled.update();
           }
-          setTimeout(resolve, 1500);
         });
       }
     });
@@ -116,7 +116,7 @@ const timeToMS = time => {
 const onReady = countdown => {
   // show the current time with *_* "face" to indicate
   // the reboot was successful
-  showTime('*_* ' + readableTime(countdown.date)).catch(error);
+  showTime('*_* ' + readableTime(countdown.date));
   // update the timer per each minute
   const i = setInterval(
     () => {
@@ -137,15 +137,14 @@ const onReady = countdown => {
               // at this point is to disconnect the timer and start
               // the next working day from zero
               setTimeout(blink, 1000, !visible);
-            },
-            error
+            }
           );
         });
       }
       else {
         saveCounter(countdown).then(() => {
           // show current time with ^_^ "face"
-          showTime('^_^ ' + readableTime(date)).catch(error);
+          showTime('^_^ ' + readableTime(date));
         });
       }
     },
