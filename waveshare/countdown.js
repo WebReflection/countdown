@@ -145,7 +145,7 @@ const startCounter = (time, welcome) => {
 };
 
 // wait for Python signal
-const watcher = watch('.', {recursive: true}, (event, fileName) => {
+const watcher = watch('.', (event, fileName) => {
   if (fileName == PYTHON) {
     watcher.close();
     setTimeout(
