@@ -56,6 +56,7 @@ def update(message = ''):
   draw = ImageDraw.Draw(img)
   draw.text((x, y), message, font = font, fill = 0)
   epaper.display(epaper.getbuffer(img.rotate(180)))
+  fb.send('update', random.random())
 
 # use .js as channel input, and .python as channel output
 fb = FileBus('.js', '.python')

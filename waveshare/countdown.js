@@ -55,7 +55,12 @@ const saveCounter = countdown => new Promise(resolve => {
   });
 });
 
-const showTime = value => fb.send('update', value);
+const callbackBus = [];
+const showTime = (value, cb) => {
+  if (cb)
+    callbackBus.push(cb);
+  fb.send('update', value);
+};
 
 const ten = i => `0${i}`.slice(-2);
 
@@ -83,14 +88,12 @@ const onReady = countdown => {
         unlink(COUNTDOWN, function blink(visible) {
           // blink every 2 seconds with x_x "face" or "ENOUGH"
           // to indicate time is over and "face" is not happy anymore
-          showTime(visible ? 'x_x' : 'ENOUGH').then(
-            () => {
-              // don't assign this timeout as the only thing to do
-              // at this point is to disconnect the timer and start
-              // the next working day from zero
-              setTimeout(blink, SCREEN_DELAY, !visible);
-            }
-          );
+          showTime(visible ? 'x_x' : 'ENOUGH', () => {
+            // don't assign this timeout as the only thing to do
+            // at this point is to disconnect the timer and start
+            // the next working day from zero
+            setTimeout(blink, SCREEN_DELAY, !visible);
+          });
         });
       }
       else {
@@ -135,16 +138,20 @@ const startCounter = (time, date) => {
 const fb = new FileBus('.python', '.js');
 
 fb.on('ready', () => {
-  console.log('JS: ready');
   const time = process.argv[2] || 8;
   const date = new Date(timeToMS(time));
   const message = ''.trim.call(process.argv[3] || '');
   if (message.length)
-    showTime(message).then(() => {
+    showTime(message, () => {
       setTimeout(startCounter, SCREEN_DELAY, time, date);
     });
   else
     startCounter(time, date);
+});
+
+fb.on('update', () => {
+  if (callbackBus.length)
+    callbackBus.shift()();
 });
 
 fb.on('initialize', () => {
