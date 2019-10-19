@@ -155,6 +155,6 @@ fb.on('update', () => {
 });
 
 fb.on('initialize', () => {
-  console.log('JS: initializing');
+  console.log('initializing');
   fb.send('ready', Math.random());
 });

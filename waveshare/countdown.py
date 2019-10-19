@@ -41,14 +41,14 @@ font = ImageFont.truetype(FredokaOne, 42)
 from filebus import FileBus
 
 def ready(value = None):
-  print('Python: ready')
+  print('ready')
   epaper.init(epaper.lut_full_update)
   epaper.Clear(0xFF)
   epaper.init(epaper.lut_partial_update)
   fb.send('ready', random.random())
 
 def update(message = ''):
-  print('Python: update ' + message);
+  print('update: ' + message);
   w, h = font.getsize(message)
   x = (width - w) / 2
   y = (height - h) / 2
