@@ -149,17 +149,17 @@ Be sure `dtparam=spi=on` is present in `/boot/config.txt`, then type the followi
 
 ```sh
 cd ~/
-sudo pacman -S --needed --noconfirm python-pip python-numpy python-pillow wiringpi
+sudo pacman -S --needed --noconfirm python-pip python-numpy python-pillow wiringpi inotify-tools
 sudo pip install RPi.GPIO
 sudo pip install spidev
 sudo pip install font-fredoka-one
 sudo pip install inotify
 git clone https://github.com/waveshare/e-Paper
 cd e-Paper/RaspberryPi\&JetsonNano/python
-sudo setup.py build
-sudo setup.py install
+sudo python setup.py build
+sudo python setup.py install
 cd ~/app
-echo '[countdown]'>MESSAGE.txt
+echo 'COUNTDOWN'>MESSAGE.txt
 curl -LO https://webreflection.github.io/countdown/waveshare/countdown.js
 curl -LO https://webreflection.github.io/countdown/waveshare/countdown.py
 curl -LO https://webreflection.github.io/countdown/waveshare/package.json

@@ -18,11 +18,11 @@
 
 // modules
 const {exec} = require('child_process');
-const {readFile, watch, writeFile, unlink} = require('fs');
+const {readFile, writeFile, unlink} = require('fs');
+const FileBus = require('filebus');
 
 // constants
 const COUNTDOWN = 'countdown.json';
-const PYTHON = 'countdown.txt';
 const SCREEN_DELAY = 3000;
 const {stringify, parse} = JSON;
 const {abs} = Math;
@@ -55,13 +55,7 @@ const saveCounter = countdown => new Promise(resolve => {
   });
 });
 
-const showTime = value => new Promise(resolve => {
-  writeFile(PYTHON, value, err => {
-    if (err)
-      error(err);
-    resolve();
-  });
-});
+const showTime = value => fb.send('update', value);
 
 const ten = i => `0${i}`.slice(-2);
 
@@ -101,7 +95,7 @@ const onReady = countdown => {
       }
       else {
         saveCounter(countdown).then(() => {
-          // show current time with ^_^ "face"
+          // show current time with ^_^ "happy face"
           showTime('^_^ ' + readableTime(date))
         });
       }
@@ -110,49 +104,50 @@ const onReady = countdown => {
   );
 };
 
-const startCounter = (time, welcome) => {
-  const date = new Date(timeToMS(time));
-  const count = () => {
-    // grab countdown json file, if any
-    readFile(COUNTDOWN, (err, data) => {
-      // no file found, start from date
-      if (err)
-        saveCounter({time, date}).then(onReady);
-      else {
-        // file found, try to parse it (avoid corrupted files)
-        try {
-          const result = parse(data);
-          // if the total time is the same as previous run
-          if (result.time == time)
-            // start from last saved date
-            Promise.resolve({time, date: new Date(result.date)}).then(onReady);
-          else
-            // otherwise start from scratch
-            saveCounter({time, date}).then(onReady);
-        }
-        // if json was corrupted (i.e. unplugged while saving)
-        catch (o_O) {
-          // start from scratch
+const startCounter = (time, date) => {
+  // grab countdown json file, if any
+  readFile(COUNTDOWN, (err, data) => {
+    // no file found, start from date
+    if (err)
+      saveCounter({time, date}).then(onReady);
+    else {
+      // file found, try to parse it (avoid corrupted files)
+      try {
+        const result = parse(data);
+        // if the total time is the same as previous run
+        if (result.time == time)
+          // start from last saved date
+          Promise.resolve({time, date: new Date(result.date)}).then(onReady);
+        else
+          // otherwise start from scratch
           saveCounter({time, date}).then(onReady);
-        }
       }
-    });
-  };
-  if (welcome)
-    showTime(welcome).then(() => setTimeout(count, SCREEN_DELAY * 2));
-  else
-    count();
+      // if json was corrupted (i.e. unplugged while saving)
+      catch (o_O) {
+        // start from scratch
+        saveCounter({time, date}).then(onReady);
+      }
+    }
+  });
 };
 
-// wait for Python signal
-const watcher = watch('.', (event, fileName) => {
-  if (fileName == PYTHON) {
-    watcher.close();
-    setTimeout(
-      startCounter,
-      SCREEN_DELAY,
-      process.argv[2] || 8,
-      ''.trim.call(process.argv[3] || '')
-    );
-  }
+// initialize the JS/Python FileBus channel
+const fb = new FileBus('.python', '.js');
+
+fb.on('ready', () => {
+  console.log('JS: ready');
+  const time = process.argv[2] || 8;
+  const date = new Date(timeToMS(time));
+  const message = ''.trim.call(process.argv[3] || '');
+  if (message.length)
+    showTime(message).then(() => {
+      setTimeout(startCounter, SCREEN_DELAY, time, date);
+    });
+  else
+    startCounter(time, date);
+});
+
+fb.on('initialize', () => {
+  console.log('JS: initializing');
+  fb.send('ready', Math.random());
 });

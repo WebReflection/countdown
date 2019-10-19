@@ -2,6 +2,9 @@
   "name": "countdown",
   "private": true,
   "scripts": {
-    "start": "rm -f countdown.txt && (node countdown.js 8 \"$(cat MESSAGE.txt)\" & python3 countdown.py)"
+    "start": "node countdown.js 8 \"$(cat MESSAGE.txt)\" & python3 countdown.py"
+  },
+  "dependencies": {
+    "filebus": "^0.1.0"
   }
 }
