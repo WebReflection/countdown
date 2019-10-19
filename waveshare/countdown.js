@@ -23,7 +23,7 @@ const FileBus = require('filebus');
 
 // constants
 const COUNTDOWN = 'countdown.json';
-const SCREEN_DELAY = 3000;
+const SCREEN_DELAY = 2000;
 const {stringify, parse} = JSON;
 const {abs} = Math;
 const {error} = console;
