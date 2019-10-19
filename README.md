@@ -154,6 +154,7 @@ sudo pip install RPi.GPIO
 sudo pip install spidev
 sudo pip install font-fredoka-one
 sudo pip install inotify
+sudo pip install inotify_simple
 git clone https://github.com/waveshare/e-Paper
 cd e-Paper/RaspberryPi\&JetsonNano/python
 sudo python setup.py build
