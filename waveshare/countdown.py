@@ -62,4 +62,5 @@ def update(message = ''):
 fb = FileBus('.js', '.python')
 fb.on('ready', ready)
 fb.on('update', update)
-fb.send('initialize', random.random())
+
+# just wait for JS handshake

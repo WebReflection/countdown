@@ -2,9 +2,9 @@
   "name": "countdown",
   "private": true,
   "scripts": {
-    "start": "node countdown.js 8 \"$(cat MESSAGE.txt)\" & python3 countdown.py"
+    "start": "python3 countdown.py & node countdown.js 8 \"$(cat MESSAGE.txt)\""
   },
   "dependencies": {
-    "filebus": "^0.1.0"
+    "filebus": "^0.2.0"
   }
 }

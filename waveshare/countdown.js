@@ -154,7 +154,9 @@ fb.on('update', () => {
     callbackBus.shift()();
 });
 
-fb.on('initialize', () => {
+fb.on('handshake', () => {
   console.log('initializing');
   fb.send('ready', Math.random());
 });
+
+fb.handshake();
