@@ -150,11 +150,7 @@ Be sure `dtparam=spi=on` is present in `/boot/config.txt`, then type the followi
 ```sh
 cd ~/
 sudo pacman -S --needed --noconfirm python-pip python-numpy python-pillow wiringpi inotify-tools
-sudo pip install RPi.GPIO
-sudo pip install spidev
-sudo pip install font-fredoka-one
-sudo pip install inotify
-sudo pip install inotify_simple
+sudo pip install RPi.GPIO spidev font-fredoka-one inotify_simple
 git clone https://github.com/waveshare/e-Paper
 cd e-Paper/RaspberryPi\&JetsonNano/python
 sudo python setup.py build
