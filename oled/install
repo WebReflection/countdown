@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+sudo pacman -S --needed graphicsmagick ghostscript xorg-fonts-type1
+curl -LO https://archibold.io/benja/fonts/n019003l.pfb
+sudo mv n019003l.pfb /usr/share/fonts/Type1/
+
+cd ~/
+npm i --save gm png-to-lcd
+
+cd ~/app
+curl -LO https://webreflection.github.io/countdown/oled/countdown-image.js
+curl -LO https://webreflection.github.io/countdown/oled/package.json
+mv countdown-image.js countdown.js
+npm install --production --no-bin-links
+npm i

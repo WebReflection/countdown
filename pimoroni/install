@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+echo 'Installing all dependencies'
+
+bash <(curl -s https://archibold.io/benja/pip)
+sudo pacman -S --needed --noconfirm wiringpi
+sudo pip install RPi.GPIO spidev font-fredoka-one
+
+echo 'Preparing the folder'
+
+cd ~/app
+echo 'COUNTDOWN'>MESSAGE.txt
+curl -LO https://webreflection.github.io/countdown/js/countdown.js
+curl -LO https://webreflection.github.io/countdown/js/package.json
+curl -LO https://webreflection.github.io/countdown/pimoroni/countdown.py
+
+echo 'You can now reboot by typing: reboot'
