@@ -30,7 +30,9 @@ Reboot, and you'll be good to go again.
 
 ## How To Install
 
-These instructions are for the [pimoroni b/w Inky pHAT](https://pimoroni.com/inkyphat) and [Waveshare e-Paper](https://www.waveshare.com/wiki/2.13inch_e-Paper_HAT).
+![time tracker oled example](./time-tracker-oled-image.jpg)
+
+These instructions are for the [pimoroni b/w Inky pHAT](https://pimoroni.com/inkyphat), the [Waveshare e-Paper](https://www.waveshare.com/wiki/2.13inch_e-Paper_HAT), or the [i2c Pi Oled screen](https://learn.adafruit.com/adafruit-pioled-128x32-mini-oled-for-raspberry-pi/usage).
 
 Prepare a [BENJA](https://archibold.io/benja/) Raspberry Pi SD card:
 
@@ -64,10 +66,3 @@ netctl list
 sudo netctl disable wlan0-your-SID
 sudo systemctl disable dhcpcd
 ```
-
-
-## As [BENJA App](https://archibold.io/benja/) with Oled Screen
-
-![time tracker oled example](./time-tracker-oled-image.jpg)
-
-The provided instructions were for having countdown on [BENJA](https://github.com/WebReflection/archibold.io/tree/gh-pages/benja) and the [i2c Pi Oled screen](https://learn.adafruit.com/adafruit-pioled-128x32-mini-oled-for-raspberry-pi/usage).
