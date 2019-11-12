@@ -84,15 +84,31 @@ const onReady = countdown => {
       if ((date.getUTCHours() + date.getUTCMinutes()) == 0) {
         // clear the minutes interval
         clearInterval(i);
+        // alternate messages
+        let alternate = 0;
+        const now = Date.now();
         // remove the json file, will start from scratch next boot
-        unlink(COUNTDOWN, function blink(visible) {
-          // blink every 2 seconds with x_x "face" or "ENOUGH"
+        unlink(COUNTDOWN, function blink() {
+          // blink every 2 seconds with x_x "face", "ENOUGH", or negative time
           // to indicate time is over and "face" is not happy anymore
-          showTime(visible ? 'x_x' : 'ENOUGH', () => {
+          let message = '';
+          switch (alternate++ % 4) {
+            case 0:
+              message = 'x_x';
+              break;
+            case 1:
+            case 3:
+              message = '--- ' + readableTime(new Date(new Date - now));
+              break;
+            case 2:
+              message = 'ENOUGH';
+              break;
+          }
+          showTime(message, () => {
             // don't assign this timeout as the only thing to do
             // at this point is to disconnect the timer and start
             // the next working day from zero
-            setTimeout(blink, SCREEN_DELAY, !visible);
+            setTimeout(blink, SCREEN_DELAY);
           });
         });
       }
