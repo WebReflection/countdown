@@ -22,8 +22,8 @@ const {readFile, writeFile, unlink} = require('fs');
 const FileBus = require('filebus');
 
 // constants
-const COUNTDOWN = 'countdown.json';
-const SCREEN_DELAY = 1000;
+const COUNTDOWN = 'TIME.txt';
+const SCREEN_DELAY = 2000;
 const {stringify, parse} = JSON;
 const {abs} = Math;
 const {error} = console;
@@ -159,7 +159,7 @@ fb.on('ready', () => {
   const message = ''.trim.call(process.argv[3] || '');
   if (message.length)
     showTime(message, () => {
-      setTimeout(startCounter, SCREEN_DELAY * 2, time, date);
+      setTimeout(startCounter, SCREEN_DELAY, time, date);
     });
   else
     startCounter(time, date);

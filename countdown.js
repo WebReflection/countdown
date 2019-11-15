@@ -23,8 +23,9 @@ const {readFile, writeFile, unlink} = require('fs');
 
 // constants
 const {HOME} = process.env;
-const COUNTDOWN = join(HOME, 'countdown.json');
+const COUNTDOWN = join(HOME, 'TIME.txt');
 const INKY_PHAT = join(HOME, 'countdown.py');
+const SCREEN_DELAY = 2000;
 const {stringify, parse} = JSON;
 const {abs} = Math;
 const {error} = console;
